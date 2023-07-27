@@ -2,12 +2,15 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-int main() {
+int main(int argc, char *argv[]) {
     DIR *dir;
     struct dirent *entry;
     struct stat fileStat;
+    char *default_dir_name = ".";
+    char *dir_name = argc > 1 ? argv[1] : default_dir_name;
 
-    dir = opendir(".");
+    dir = opendir(dir_name);
+
     if (!dir) {
         printf("Error opening directory.\n");
         return 1;
@@ -15,9 +18,7 @@ int main() {
 
     while ((entry = readdir(dir)) != NULL) {
         stat(entry->d_name, &fileStat);
-        if (S_ISREG(fileStat.st_mode)) {
-            printf("%s %lld B\n", entry->d_name, fileStat.st_size);
-        }
+        printf("%s %lld B\n", entry->d_name, fileStat.st_size);
     }
 
     closedir(dir);
