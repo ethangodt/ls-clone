@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include "config.h"
 
 int main(int argc, char *argv[]) {
     DIR *dir;
@@ -8,6 +9,7 @@ int main(int argc, char *argv[]) {
     struct stat fileStat;
     char *default_dir_name = ".";
     char *dir_name = argc > 1 ? argv[1] : default_dir_name;
+    Config *config = parse_args(argv);
 
     dir = opendir(dir_name);
 
